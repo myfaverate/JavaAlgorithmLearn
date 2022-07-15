@@ -89,24 +89,28 @@ Examples
 
 3
 2
+
 Returns: "ABB"
 This string has exactly two pairs (i, j) mentioned in the statement: (0, 1) and (0, 2).
 1)
 
 2
 0
+
 Returns: "BA"
 Please note that there are valid test cases with K = 0.
 2)
 
 5
 8
+
 Returns: ""
 Five characters is too short for this value of K.
 3)
 
 10
 12
+
 Returns: "BAABBABAAB"
 Please note that this is an example of a solution; other valid solutions will also be accepted.
 
