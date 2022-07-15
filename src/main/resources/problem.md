@@ -65,4 +65,128 @@ Returns: "Possible"
 我们已经有两张A0的纸了，所以我们只需要其中一张就可以了。
 
 此问题陈述为TopCoder, Inc.的专有的和私有的财产。未经TopCoder, Inc.事先书面同意，任何未经授权的使用或复制此信息都是严格禁止的。(c) 2003年,TopCoder公司。保留所有权利。
+
+# AB
+该字符串正好有N个字符，每个字符都是“A”或“B”。
+字符串s恰好有K对 ( i , j ) (0 <= i < j <= N -1)，使得s [ i ] = 'A' 和s [ j ] = 'B'。
+
+Definition
+
+Class:	AB
+Method:	createString
+Parameters:	int, int
+Returns:	String
+Method signature:	String createString(int N, int K)
+(be sure your method is public)
+
+
+Constraints
+-	N will be between 2 and 50, inclusive.
+-	K will be between 0 and N(N-1)/2, inclusive.
+
+Examples
+0)
+
+3
+2
+Returns: "ABB"
+This string has exactly two pairs (i, j) mentioned in the statement: (0, 1) and (0, 2).
+1)
+
+2
+0
+Returns: "BA"
+Please note that there are valid test cases with K = 0.
+2)
+
+5
+8
+Returns: ""
+Five characters is too short for this value of K.
+3)
+
+10
+12
+Returns: "BAABBABAAB"
+Please note that this is an example of a solution; other valid solutions will also be accepted.
+
+# Caketown
+你和一些朋友要去风景优美的蛋糕镇的一家蛋糕店。桌子上有各种不同大小的蛋糕，大小是以“咬一口”来衡量的。你已经决定轮流挑选蛋糕，直到所有的蛋糕都被你或你的朋友选中。
+你们都喜欢大蛋糕，所以轮到每个人挑剩下最大的蛋糕。如果最大的蛋糕有一个领带，那么挑哪个领带的蛋糕并不重要。因为今天是你的生日，你可以挑第一个蛋糕。
+例如，假设你有两个朋友，有5块蛋糕，大小分别为6,7,9,6,4。你会选择9口蛋糕，你的第一个朋友会选择7口蛋糕，你的另一个朋友会得到6口蛋糕中的一个，
+你会得到另外6口蛋糕，而你的第一个朋友会得到4口蛋糕。你一共可以吃15口蛋糕。
+numFriends将是您拥有的朋友数量(不包括您自己)。cakeesize将是一个整数列表，每个整数的大小相当于一个蛋糕的大小——不一定是按照大小的顺序。返回你将得到的蛋糕的总咬。
+
+**Definition**
+
+Class:Caketown
+
+Method:
+howManyBites
+
+Parameters:
+int[], int
+
+Returns:
+int
+
+Method signature:
+int howManyBites(int[] cakeSize, int numFriends)
+
+(be sure your method is public)
+Limits
+
+Time limit (s):
+2.000
+
+Memory limit (MB):
+64
+
+时间限制:
+
+2.000
+
+内存限制(MB):
+
+64
+
+**约束**
+
+- cakeSize将包含1到10个元素。
+
+- cakeesize的每个元素都在1到10之间。
+
+- numFriends将在1到5之间，包括5。
+
+**例子**
+
+0)
+
+{10}
+
+5
+
+返回:10
+
+人可能比蛋糕多，但幸运的是你先挑。
+
+1）
+
+{1 1 1 5 1}
+
+3.
+
+返回:6
+
+你会选择5号的蛋糕，最后你也会得到1号的蛋糕。
+
+2）
+
+{6、7、9、6、4}
+
+2
+
+返回:15
+
+问题陈述中的例子。
 > 以上均用于个人学习。
