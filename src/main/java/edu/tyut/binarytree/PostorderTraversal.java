@@ -4,27 +4,27 @@ import java.util.*;
 
 public class PostorderTraversal {
     public static void main(String[] args) {
-//        TreeNode treeNode1 = new TreeNode(1);
-//        TreeNode treeNode2 = new TreeNode(2);
-//        TreeNode treeNode3 = new TreeNode(3);
-//        TreeNode treeNode4 = new TreeNode(4);
-//        TreeNode treeNode5 = new TreeNode(5);
-//        TreeNode treeNode6 = new TreeNode(6);
-//        TreeNode treeNode7 = new TreeNode(7);
-//        TreeNode treeNode8 = new TreeNode(8);
-//        treeNode1.left = treeNode2;
-//        treeNode1.right = treeNode3;
-//        treeNode2.left = treeNode4;
-//        treeNode4.left = treeNode7;
-//        treeNode3.left = treeNode5;
-//        treeNode3.right = treeNode6;
-//        treeNode5.right = treeNode8;
-
         TreeNode treeNode1 = new TreeNode(1);
         TreeNode treeNode2 = new TreeNode(2);
         TreeNode treeNode3 = new TreeNode(3);
-        treeNode1.right = treeNode2;
-        treeNode2.left = treeNode3;
+        TreeNode treeNode4 = new TreeNode(4);
+        TreeNode treeNode5 = new TreeNode(5);
+        TreeNode treeNode6 = new TreeNode(6);
+        TreeNode treeNode7 = new TreeNode(7);
+        TreeNode treeNode8 = new TreeNode(8);
+        treeNode1.left = treeNode2;
+        treeNode1.right = treeNode3;
+        treeNode2.left = treeNode4;
+        treeNode4.left = treeNode7;
+        treeNode3.left = treeNode5;
+        treeNode3.right = treeNode6;
+        treeNode5.right = treeNode8;
+
+//        TreeNode treeNode1 = new TreeNode(1);
+//        TreeNode treeNode2 = new TreeNode(2);
+//        TreeNode treeNode3 = new TreeNode(3);
+//        treeNode1.right = treeNode2;
+//        treeNode2.left = treeNode3;
         List<Integer> list = postorderTraversalMorrisSelf(treeNode1);
         System.out.println(list);
     }
@@ -38,44 +38,50 @@ public class PostorderTraversal {
             当前节点更新为当前节点的右子节点。
             // 此处需要把链表反转，然后再次反转恢复
         */
-        // TODO 有空闲时间来解决此问题
+        // TODO 有空闲时间来解决此问题（已完成）
+        TreeNode cur = root;
         TreeNode prev = null;
         var arr = new ArrayList<Integer>();
-        var stack = new Stack<Integer>();
-        while (root!=null){
-            if (root.left==null){
-                root=root.right;
-            }else {
-                // 在当前节点的左子树中找到当前节点在中序遍历下的前驱节点
-                if(root.left.right!=null&&root.left.right!=root){
-                    prev=root.left.right;
-                }else {
-                    prev=root.left;
+        while (cur!=null){
+            prev=cur.left;
+            if(prev!=null){
+                // 前驱节点已找到
+                while (prev.right!=null&&prev.right!=cur){
+                    prev=prev.right;
                 }
                 if (prev.right==null){
-                    prev.right=root;
-                    root=root.left;
-                }
-                if (prev.right==root){
+                    prev.right=cur;
+                    cur=cur.left;
+                    continue;
+                }else {
                     prev.right=null;
-                    if(prev==root.left){
-                        arr.add(prev.val);
-                    }else {
-                        arr.add(prev.val);
-                        arr.add(root.left.val);
-                    }
-                    root=root.right;
-                    if(root!=null)
-                        stack.add(root.val);
-                    else {
-                        // 逆序打印 6 3 1
-
-                    }
+                    myAddPath(arr,cur.left);
                 }
             }
+            cur=cur.right;
         }
-
+        myAddPath(arr,root);
         return arr;
+    }
+
+    public static void myAddPath(List<Integer> arr,TreeNode treeNode){
+        int count=0;
+        while (treeNode!=null){
+            count++;
+            arr.add(treeNode.val);
+            treeNode=treeNode.right;
+        }
+        // 倒叙
+        int left = arr.size()-count;
+        int right = arr.size()-1;
+        int tmp;
+        while (left<right){
+            tmp=arr.get(left);
+            arr.set(left,arr.get(right));
+            arr.set(right,tmp);
+            left++;
+            right--;
+        }
     }
 
     public static List<Integer> postorderTraversalMorris(TreeNode root) {
@@ -92,36 +98,39 @@ public class PostorderTraversal {
             return res;
         }
 
-        TreeNode p1 = root, p2 = null;
-
-        while (p1 != null) {
-            p2 = p1.left;
-            if (p2 != null) {
-                while (p2.right != null && p2.right != p1) {
-                    p2 = p2.right;
+        TreeNode cur = root, prev = null;
+        // 当前节点不为空，继续遍历
+        while (cur != null) {
+            prev = cur.left; // 前驱节点指向当前节点的左节点
+            if (prev != null) { // 当当前节点的左节点不为空时
+                // 当前节点的左节点不为空时且 当前节点的左节点的右节点不指向当前节点时，当前节点的左节点的右节点为当前节点的前驱节点
+                while (prev.right != null && prev.right != cur) {
+                    prev = prev.right;
                 }
-                if (p2.right == null) {
-                    p2.right = p1;
-                    p1 = p1.left;
-                    continue;
+                // 当前节点的左节点的右节点不为空时，当前节点的左节点的右节点指向当前节点，当前节点指向当前节点的的左子节点
+                if (prev.right == null) {
+                    prev.right = cur;
+                    cur = cur.left;
+                    continue; // 避免执行下面那条语句 cur = cur.right;
                 } else {
-                    p2.right = null;
-                    addPath(res, p1.left);
+                    prev.right = null; // 如果前驱节点的右子节点为当前节点，将它的右子节点重新设为空。
+                    addPath(res, cur.left);
                 }
             }
-            p1 = p1.right;
+            cur = cur.right;
         }
-        addPath(res, root);
+        addPath(res, root); // 最后把树的 1 3 6 添加并反转
         return res;
     }
 
     public static void addPath(List<Integer> res, TreeNode node) {
-        int count = 0;
+        int count = 0; //
         while (node != null) {
             ++count;
             res.add(node.val);
             node = node.right;
         }
+        // 逆序翻转
         int left = res.size() - count, right = res.size() - 1;
         while (left < right) {
             int temp = res.get(left);
